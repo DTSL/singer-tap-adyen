@@ -25,13 +25,18 @@ class TestCleaners(unittest.TestCase):
             'Booking Date' : "2024-01-01"
         }
         row_number = 1
-        dispute_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/dispute_report_2024_02_29.csv"
-        payment_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/payments_account_report_2024_02_29.csv"
-        cleaned_dispute = clean_dispute_transaction_details(dispute_row,row_number,dispute_csv_url)
-        cleaned_payment = clean_payment_accounting(payment_row,row_number,payment_csv_url)
-        self.assertEqual(cleaned_dispute.get("id"),202402290000000001)
-        self.assertEqual(cleaned_payment.get("id"),202402290000000001)
-
-
+        leap_year_dispute_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/dispute_report_2024_02_29.csv"
+        leap_year_payment_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/payments_account_report_2024_02_29.csv"
+        normal_dispute_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/dispute_report_2024_06_15.csv"
+        normal_payment_csv_url = "https://dummy-url.adyen.com/reports/download/MerchantAccount/DummyMerchant/payments_account_report_2024_06_15.csv"
+        cleaned_leap_year_dispute_row = clean_dispute_transaction_details(dispute_row,row_number,leap_year_dispute_csv_url)
+        cleaned_leap_year_payment_row = clean_payment_accounting(payment_row,row_number,leap_year_payment_csv_url)
+        cleaned_normal_year_dispute_row = clean_dispute_transaction_details(dispute_row,row_number,normal_dispute_csv_url)
+        cleaned_normal_year_payment_row = clean_payment_accounting(payment_row,row_number,normal_payment_csv_url)
+        self.assertEqual(cleaned_leap_year_dispute_row.get("id"),202402290000000001)      
+        self.assertEqual(cleaned_leap_year_payment_row.get("id"),202402290000000001)
+        self.assertEqual(cleaned_normal_year_dispute_row.get("id"),202406150000000001)
+        self.assertEqual(cleaned_normal_year_payment_row.get("id"),202406150000000001)
+        
 if __name__ == "__main__":
     unittest.main()
