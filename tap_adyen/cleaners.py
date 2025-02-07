@@ -115,7 +115,7 @@ def clean_dispute_transaction_details(
 
     # Get file date
     file_date: date = parse_date(
-        csv_url.replace("_","-") # Can't parse leap years with underscores but can with dashes
+        csv_url.replace("_","-") # Can't parse leap year days (Feb 29th) with underscores, but can with dashes
         ,fuzzy=True
     ).date()
 
@@ -172,7 +172,7 @@ def clean_payment_accounting(
 
     # Get file date
     file_date: date = parse_date(
-        csv_url.replace("_","-"), # Can't parse date with underscores, but dashes work
+        csv_url.replace("_","-"), # Can't parse leap year days (Feb 29th) with underscores, but can with dashes
         fuzzy=True
     ).date()
 
