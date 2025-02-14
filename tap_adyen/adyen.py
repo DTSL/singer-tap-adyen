@@ -9,6 +9,7 @@ from typing import Callable, Generator, Optional
 from time import sleep
 
 import requests
+import requests.adapters
 import singer
 
 API_SCHEME: str = "https://"
@@ -56,6 +57,10 @@ class Adyen(object):  # noqa: WPS230
 
         # Setup reusable web client
         self.client: requests.Session = requests.session()
+
+        # Enable simple retry logic as per https://docs.python-requests.org/en/latest/api/#requests.adapters.HTTPAdapter
+        self.client.mount("https://", requests.adapters.HTTPAdapter(max_retries=3))
+        self.client.mount("http://", requests.adapters.HTTPAdapter(max_retries=3))
 
         # Setup logger
         self.logger: logging.RootLogger = singer.get_logger()

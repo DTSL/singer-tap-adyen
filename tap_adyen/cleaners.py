@@ -85,7 +85,7 @@ def clean_row(row: dict, mapping: dict) -> dict:
 
         # Convert the value
         cleaned[new_mapping] = to_type_or_null(
-            row[key],
+            row.get(key),
             key_mapping.get('type'),
             key_mapping.get('null', True),
         )
@@ -114,7 +114,10 @@ def clean_dispute_transaction_details(
     )
 
     # Get file date
-    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
+    file_date: date = parse_date(
+        csv_url.replace("_","-") # Can't parse leap year days (Feb 29th) with underscores, but can with dashes
+        ,fuzzy=True
+    ).date()
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323
@@ -168,7 +171,10 @@ def clean_payment_accounting(
     mapping: Optional[dict] = STREAMS['payment_accounting'].get('mapping')
 
     # Get file date
-    file_date: date = parse_date(csv_url.rstrip('.csv'), fuzzy=True).date()
+    file_date: date = parse_date(
+        csv_url.replace("_","-"), # Can't parse leap year days (Feb 29th) with underscores, but can with dashes
+        fuzzy=True
+    ).date()
 
     # Create primary key
     date_string: str = '{date:%Y%m%d}'.format(date=file_date)  # noqa: WPS323

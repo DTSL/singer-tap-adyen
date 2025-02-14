@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='tap-adyen',
-    version='0.2.0',
+    version='0.2.1',
     description='Singer.io tap for extracting data from Adyen',
     author='Stitch',
     url='https://github.com/Yoast/singer-tap-adyen',
